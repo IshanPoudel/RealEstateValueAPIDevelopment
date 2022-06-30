@@ -15,17 +15,23 @@ mycursor = db.cursor()
 
 class HelloWorld(Resource):
 
-    def get(self ):
+    def get(self , name):
 
-        query = "select * from final_agent order by agent_id desc limit 50"
+        #depending on the number of argument ,
+        #select things to do.
+
+
+        query = "select * from final_agent where name REGEXP '" +name+"*'"
         mycursor.execute(query)
         rows = mycursor.fetchall()
+
+        #return rows with that data on it
         return {"data" :rows}
 
     def post(self):
         return {"data" : "Posted"}
 
-api.add_resource(HelloWorld , "/getvalue")
+api.add_resource(HelloWorld , "/getvalue/<string:name>")
 
 
 if __name__ == "__main__":
